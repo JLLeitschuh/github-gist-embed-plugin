@@ -19,12 +19,20 @@ test.describe('GitHub Gist Embed Extension', () => {
     userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'playwright-extension-'));
     
     // Launch browser with extension loaded
-    // Note: Extensions require non-headless mode or --headless=new
+    // In CI, we need to use headless mode with proper flags
+    // Extensions can work in headless mode with Chrome's new headless implementation
+    const isCI = !!process.env.CI;
     context = await chromium.launchPersistentContext(userDataDir, {
-      headless: process.env.CI ? 'new' : false,
+      headless: isCI,
       args: [
         `--disable-extensions-except=${extensionPath}`,
         `--load-extension=${extensionPath}`,
+        // Additional args for CI environment
+        ...(isCI ? [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+        ] : []),
       ],
     });
   });
@@ -41,7 +49,9 @@ test.describe('GitHub Gist Embed Extension', () => {
   });
 
   test.afterAll(async () => {
-    await context.close();
+    if (context) {
+      await context.close();
+    }
     // Clean up temporary directory
     if (userDataDir && fs.existsSync(userDataDir)) {
       fs.rmSync(userDataDir, { recursive: true, force: true });
