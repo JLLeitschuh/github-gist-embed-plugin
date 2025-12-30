@@ -19,11 +19,11 @@ test.describe('GitHub Gist Embed Extension', () => {
     userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), 'playwright-extension-'));
     
     // Launch browser with extension loaded
-    // In CI, we need to use headless mode with proper flags
-    // Extensions can work in headless mode with Chrome's new headless implementation
+    // Chrome extensions require a display, so we use headless: false
+    // In CI, we use xvfb (virtual display) to provide a display server
     const isCI = !!process.env.CI;
     context = await chromium.launchPersistentContext(userDataDir, {
-      headless: isCI,
+      headless: false, // Extensions don't work in headless mode
       args: [
         `--disable-extensions-except=${extensionPath}`,
         `--load-extension=${extensionPath}`,
