@@ -1,5 +1,7 @@
 # GitHub Gist Embed Chrome Extension
 
+![CI](https://github.com/JLLeitschuh/github-gist-embed-plugin/actions/workflows/integration-tests.yml/badge.svg)
+
 A Chrome extension that adds a "Copy Embed" button to GitHub gist pages, allowing you to easily copy embed URLs for specific files within a gist.
 
 ## Features
