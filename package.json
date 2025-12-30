@@ -1,0 +1,20 @@
+{
+  "name": "github-gist-embed-extension",
+  "version": "1.0.0",
+  "description": "Chrome extension that adds a Copy Embed button to GitHub gist pages",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  },
+  "keywords": [
+    "chrome-extension",
+    "github",
+    "gist",
+    "embed"
+  ],
+  "author": "",
+  "license": "MIT"
+}
+
